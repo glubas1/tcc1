@@ -39,7 +39,7 @@ session_start();
                 </li>
                 
                 <li class="nav-item">
-                    <a class="nav-link" href="">Sobre nós</a>
+                    <a class="nav-link" href="/paginas/sobrenos.php">Sobre nós</a>
                 </li>
                 <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true && isset($_SESSION['is_admin']) && $_SESSION['is_admin'] === true): ?>
                 <li class="nav-item">

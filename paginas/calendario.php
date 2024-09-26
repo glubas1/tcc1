@@ -35,7 +35,7 @@ session_start();
                         <a class="nav-link" href="calendario.php">Calendário Cananeense</a>
                     </li>
                     <li class="nav-item">
-                    <a class="nav-link" href="">Sobre nós</a>
+                    <a class="nav-link" href="sobrenos.php">Sobre nós</a>
                 </li>
                 </ul>
             </div>

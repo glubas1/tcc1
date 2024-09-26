@@ -129,8 +129,8 @@ a.caption-login:hover {
 .right-content {
     width: 100%;
     transform: translateY(-20px);
-    width: 100%; /* Defina o tamanho do container */
-  overflow: hidden;
+    width: 100%; 
+    overflow:calc(2);
     
   
     
@@ -142,13 +142,15 @@ a.caption-login:hover {
     height: auto;
 }
 
+
+
 .phone img {
     border-radius: 10px;
 
     
-    transform: translateX(55px); 
-    
-    max-width: 100%; /* A imagem não excederá a largura do container */
+   
+    transform: translateX(20px); 
+    max-width: 100%; 
     height: auto;
     
 }
