@@ -107,7 +107,7 @@ session_start();
   <div class="card-body">
     <h5 class="card-title">Cachoeira Rio das Minas</h5>
     <p class="card-text">Uma das cachoeiras de cananeia.</p>
-    <a href="#" class="btn btn-primary">Ver Ponto</a>
+    <a href="/paginas/pturistico2.php" class="btn btn-primary">Ver Ponto</a>
   </div>
 </div>
 <div class="card" style="width: 18rem;">
