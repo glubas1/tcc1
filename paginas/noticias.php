@@ -2,7 +2,6 @@
 session_start();
 ?>
 
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -19,65 +18,37 @@ session_start();
         object-fit: cover; 
     }
     body{
-        background-image: url(../img/fundo.png);
+        background-image: url(../img/fundoponto.png);
         background-size: cover;
+        background-color: #fafafa;
+        background-size: contain;
     }
-    .conteudo{
-        width: 100%;
+    .card-news {
+        border: 1px solid #ddd; 
+        border-radius: 10px; 
+        padding: 20px;
+        margin-bottom: 20px;
+        background-color: white;
     }
-    .texto-container {
-    width: 80%; 
-    
-    padding: 20px;
-    background-color: white; 
-    border-radius: 10px; 
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); 
+    .card-img-left {
+        max-width: 300px;
+        object-fit: cover;
+        border-radius: 10px 0 0 10px; 
     }
-
-   .texto-container p {
-    font-size: 18px;
-    color: #333; 
+    .card-title {
+        font-weight: bold;
+        color: #038246; 
     }
-
-    .social-buttons {
-  margin-top: 20px;
-  display: flex;
-  justify-content: center;
-  gap: 15px; 
-}
-
-.social-buttons a {
-  text-decoration: none;
-  font-size: 24px; 
-  width: 50px;
-  height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white; 
-  border-radius: 50%;
-  transition: background-color 0.3s ease;
-}
-
-.btn-whatsapp {
-  background-color: #25D366; 
-}
-
-.btn-whatsapp:hover {
-  background-color: #1DA851;
-}
-
-.btn-facebook {
-  background-color: #3b5998; 
-}
-
-.btn-facebook:hover {
-  background-color: #2d4373;
-}
-
-
-
-  
+    .card-subtitle {
+        font-weight: bold;
+        font-size: 0.9rem;
+        margin-bottom: 5px;
+        color: #999;
+    }
+    .news-meta {
+        color: #666;
+        font-size: 0.8rem;
+    }
 </style>
 
 <body>
@@ -102,7 +73,7 @@ session_start();
                     <a class="nav-link" href="calendario.php">Calendário Cananeense</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="">Sobre nós</a>
+                    <a class="nav-link" href="/paginas/sobrenos.php">Sobre nós</a>
                 </li>
                 <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true && isset($_SESSION['is_admin']) && $_SESSION['is_admin'] === true): ?>
                 <li class="nav-item">
@@ -122,34 +93,40 @@ session_start();
     </div>
 </nav>
 
-<div class="conteudo">
-<div class="container mt-5">
-    <h2 class="mb-4">Sobre nós</h2>
+<div class="container mt-4">
+    <?php
+    // Inclui o arquivo de conexão com o banco de dados
+    include('../php/conexao.php'); // Altere para o caminho correto do seu arquivo de conexão
 
-    <div class="texto-container">
-    <p>Somos a Wyskr Team, um grupo de alunos da ETEC dedicado a promover o turismo sustentável em Cananéia, uma cidade encantadora no litoral sul de São Paulo, reconhecida por suas praias desertas, manguezais e biodiversidade única. Nosso projeto, Canatrip, nasceu com o propósito de valorizar as riquezas naturais e culturais da região, ao mesmo tempo em que conectamos a cidade ao mundo por meio da tecnologia.
-    </p>
+    // Consulta as notícias no banco de dados
+    $sql = "SELECT * FROM noticias ORDER BY data_publicacao DESC";
+    $result = $conn->query($sql);
 
-    <div class="social-buttons">
-    <!-- Botão de WhatsApp -->
-    <a href="https://wa.me/SeuNumeroDeTelefone" target="_blank" class="btn-whatsapp">
-      <i class="fab fa-whatsapp"></i>
-    </a>
+    // Verifica se há resultados
+    if ($result->num_rows > 0) {
+        // Exibe cada notícia
+        while($row = $result->fetch_assoc()) {
+            echo '<div class="row card-news">';
+            echo '  <div class="col-md-4">';
+            echo '      <img src="' . $row["imagem"] . '" class="img-fluid card-img-left" alt="Imagem da notícia">';
+            echo '  </div>';
+            echo '  <div class="col-md-8">';
+            echo '      <div class="card-body">';
+            echo '          <h6 class="card-subtitle mb-2">' . $row["categoria"] . '</h6>';
+            echo '          <h5 class="card-title">' . $row["titulo"] . '</h5>';
+            echo '          <p class="card-text">' . substr($row["conteudo"], 0, 200) . '...</p>';
+            echo '          <p class="news-meta">Publicado em: ' . date('d/m/Y H:i', strtotime($row["data_publicacao"])) . '</p>';
+            echo '      </div>';
+            echo '  </div>';
+            echo '</div>';
+        }
+    } else {
+        echo "<p>Nenhuma notícia encontrada.</p>";
+    }
 
-    <!-- Botão de Facebook -->
-    <a href="https://facebook.com/canatrip" target="_blank" class="btn-facebook">
-      <i class="fab fa-facebook-f"></i>
-    </a>
-  </div>
-
-
-    </div>
-    
-
-     
-        
-    </div>
-</div>
+    // Fecha a conexão
+    $conn->close();
+    ?>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz4fnFO9gybBogGzO5KkM9Im1Go5l0D7xXY1pHpPn4l9U/M2cbP7pJ4u5T" crossorigin="anonymous"></script>

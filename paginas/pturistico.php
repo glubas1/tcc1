@@ -23,6 +23,7 @@ session_start();
         background-image: url(../img/fundoponto.png);
         background-position: 40% 45%;
         background-size: cover;
+        
     }
   
 </style>
@@ -42,13 +43,20 @@ session_start();
                 <li class="nav-item">
                     <a class="nav-link" href="pturistico.php">Pontos Turísticos</a>
                 </li>
-                
+                <li class="nav-item">
+                    <a class="nav-link" href="/paginas/noticias.php">Notícias</a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="calendario.php">Calendário Cananeense</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="sobrenos.php">Sobre nós</a>
                 </li>
+                <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true && isset($_SESSION['is_admin']) && $_SESSION['is_admin'] === true): ?>
+                <li class="nav-item">
+                    <a class="nav-link" href="postagens.php"> Postagens</a>
+                </li>
+                <?php endif; ?>
             </ul>
         </div>
         <div class="img">
@@ -63,8 +71,8 @@ session_start();
 </nav>
 
 <div class="conteudo">
-<div class="container mt-5">
-    <h2 class="mb-4">Pontos Turísticos</h2>
+<div class="container">
+    <h2 class="mb-4 pt-4">Pontos Turísticos</h2>
     <div class="row">
         <div class="col-md-4 mb-4">
             <div class="card">

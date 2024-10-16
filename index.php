@@ -35,12 +35,23 @@ session_start();
                     <a class="nav-link" href="/paginas/pturistico.php">Pontos Turísticos</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="/paginas/noticias.php">Notícias</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="/paginas/calendario.php">Calendário Cananeense</a>
                 </li>
                 
                 <li class="nav-item">
                     <a class="nav-link" href="/paginas/sobrenos.php">Sobre nós</a>
                 </li>
+
+                <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true && isset($_SESSION['is_admin']) && $_SESSION['is_admin'] === true): ?>
+                <li class="nav-item">
+                    <a class="nav-link" href="/paginas/postagens.php"> Postagens</a>
+                </li>
+                <?php endif; ?>
+
+
                 <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true && isset($_SESSION['is_admin']) && $_SESSION['is_admin'] === true): ?>
                 <li class="nav-item">
                     <a class="nav-link" href="/paginas/adm.php"><img src="/img/admin_panel_settings_24dp_FILL0_wght400_GRAD0_opsz24.svg" alt="Coroa" width="20px"> Administrações</a>
