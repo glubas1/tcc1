@@ -88,9 +88,10 @@ session_start();
 
 
 
-        <div class="imagem">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d19654.120696355476!2d-47.93144183117516!3d-25.01282500643426!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1spt-BR!2sbr!4v1725363968255!5m2!1spt-BR!2sbr" width="100%" height="750" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <div class="mapa" id="map">
+        
         </div>
+
         </div>            
         </div>
     
@@ -222,6 +223,28 @@ session_start();
 
 
 
+
+
+
+<script type="text/javascript">
+  var map;
+  function initMap(){
+    map = new google.maps.Map(document.getElementById('map'), {
+      center: {lat: 0, lng: 0},
+      zoom: 8
+    });
+  }
+
+
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAGcK6BAfbHsXE1QC2quDb1BcA05xTjmxg&callback=initMap"
+async defer></script>
+
+
+
+
+      
 
 
 

@@ -1,3 +1,20 @@
+<?php
+include '../php/conexao.php';
+$query = "SELECT nome, nota, comentario, data FROM avaliacoes ORDER BY data DESC";
+$result = $conn->query($query); 
+
+
+$avaliacoes = [];
+if ($result && $result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $avaliacoes[] = $row;
+    }
+} else {
+    // Nenhuma avaliação encontrada
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -25,7 +42,7 @@
         }
         img.featured {
             max-width: 100%;
-            width: 50%; 
+            width: 50%;
             height: auto;
             border-radius: 5px;
         }
@@ -45,7 +62,7 @@
             background-color: #ddd;
             margin: 20px 0;
         }
-        .conteudo{
+        .conteudo {
             display: flex;
             align-items: center;
             justify-content: center;
@@ -96,59 +113,74 @@
         </div>
     </div>
 </nav>
-    <div class="conteudo">
+<div class="conteudo">
     <div class="container">
         <div class="featured-container">
             <img src="../img/praiapereira.jpeg" alt="Praia do Pereirinha" class="featured">
         </div>
         <h1>Praia do Pereirinha</h1>
         <p><strong>Localização:</strong> Ilha Grande, Brasil</p>
-        <p><strong>Avaliação Geral:</strong> <span class="rating">⭐⭐⭐⭐⭐ (4.8/5)</span></p>
-
+        <p><strong>Avaliação Geral:</strong> <span class="rating" id="media-avaliacao">⭐⭐⭐⭐⭐ (4.8/5)</span></p>
         <h2>Descrição:</h2>
         <p>A Praia do Pereirinha é uma das praias mais belas de Cananéia, conhecida por suas águas cristalinas e tranquilas, ideais para snorkeling e natação. É um destino popular para quem busca relaxamento e contato com a natureza.</p>
-
         <h2>Avaliações:</h2>
-        <div class="review">
-            <p><strong>João Silva:</strong> <span class="rating">⭐⭐⭐⭐⭐</span></p>
-            <p>"Uma das praias mais bonitas que já visitei! A água é incrivelmente clara e a vida marinha é abundante. Perfeito para snorkeling."</p>
+        <div id="avaliacoes">
+            <?php if (count($avaliacoes) > 0): ?>
+                <?php foreach ($avaliacoes as $avaliacao): ?>
+                    <?php
+                        $nome = htmlspecialchars($avaliacao['nome']);
+                        $nota = $avaliacao['nota'];
+                        $comentario = htmlspecialchars($avaliacao['comentario']);
+                        $data = date('d/m/Y H:i', strtotime($avaliacao['data']));
+                        $estrelas = str_repeat('⭐', $nota); 
+                    ?>
+                    <div class="review">
+                        <p><strong><?php echo $nome; ?>:</strong>
+                        <span class="rating"><?php echo $estrelas; ?> (<?php echo $nota; ?>)</span></p>
+                        <p>"<?php echo $comentario; ?>"</p>
+                        <p><small><?php echo $data; ?></small></p>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p>Não há avaliações ainda. Seja o primeiro a avaliar!</p>
+            <?php endif; ?>
         </div>
-        <div class="review">
-            <p><strong>Maria Oliveira:</strong> <span class="rating">⭐⭐⭐⭐</span></p>
-            <p>"A praia é linda e muito tranquila, mas o acesso é um pouco difícil. Vale a pena pela beleza do lugar."</p>
-        </div>
-        <div class="review">
-            <p><strong>Carlos Souza:</strong> <span class="rating">⭐⭐⭐⭐⭐</span></p>
-            <p>"Lugar paradisíaco! Ideal para relaxar e apreciar a natureza. Recomendo a todos que visitam Ilha Grande."</p>
-        </div>
+
+        <h2>Adicionar Avaliação:</h2>
+        <form id="form-avaliacao" action="../php/salvar_avaliacao.php" method="POST">
+            <div class="mb-3">
+                <label for="nome" class="form-label">Nome:</label>
+                <input type="text" class="form-control" id="nome" name="nome" required>
+            </div>
+            <div class="mb-3">
+                <label for="nota" class="form-label">Nota:</label>
+                <select id="nota" class="form-select" name="nota" required>
+                    <option value="5">5</option>
+                    <option value="4">4</option>
+                    <option value="3">3</option>
+                    <option value="2">2</option>
+                    <option value="1">1</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="comentario" class="form-label">Comentário:</label>
+                <textarea class="form-control" id="comentario" name="comentario" rows="3" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Enviar Avaliação</button>
+        </form>
 
         <h2>Informações Úteis:</h2>
         <p><strong>Horário de Funcionamento:</strong> Aberta todos os dias</p>
         <p><strong>Preço:</strong> Acesso gratuito</p>
         <p><strong>Como Chegar:</strong> Acesso por trilhas ou barco a partir de Abraão</p>
         <p><strong>Facilidades:</strong> Restaurantes próximos, aluguel de equipamentos para snorkeling</p>
-
-        <h2>Fotos:</h2>
-        <img src="link_para_foto1" alt="Praia do Pereirinha" style="width:100%; height:auto;">
-        <img src="link_para_foto2" alt="Vista da Praia" style="width:100%; height:auto; margin-top:10px;">
-
-        <h2>Dicas dos Visitantes:</h2>
-        <p><strong>Melhor Horário:</strong> Visite pela manhã cedo para aproveitar a tranquilidade.</p>
-        <p><strong>Dica de Transporte:</strong> Utilize um barco para um acesso mais fácil e rápido.</p>
-        <p><strong>Segurança:</strong> Fique atento aos seus pertences, especialmente em áreas mais movimentadas.</p>
-
         <h2>Mapa:</h2>
         <div class="map">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4447.065783269934!2d-47.91541322374435!3d-25.063809618505307!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94daf07d24a611cf%3A0xe495ead434fcef1b!2sPereirinha%20Beach!5e1!3m2!1sen!2sbr!4v1725662905972!5m2!1sen!2sbr" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4447.065783269934!2d-47.91541322374435!3d-25.063809618505307!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94daf07d24a611cf%3A0xe495ead434fcef1b!2sPereirinha%20Beach!5e1!3m2!1sen!2sbr!4v1725662905972!5m2!1sen!2sbr" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
-
-        <h2>Comentários:</h2>
-        <p>"A praia é incrível! Voltarei com certeza." - Ana Lima</p>
-        <p>"Lugar perfeito para relaxar e apreciar a natureza." - Roberto Fernandes</p>
     </div>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz4fnFO9gybBogGzOgQx5rACzZZ3OYfRYkE4lUksdQRVvoxMfooAoISJEK" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-ho+pP8Q1hPY8sTknpVSbKSOBDPG0hOSeC7U2BtCszINgTPw7CMV5FmOeaN0oKm+T" crossorigin="anonymous"></script>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz4fnFO9gybBogGzOgQx5rACzZZ3OYfRYkE4lUksdQRVvoxMfooAoISJEK" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-ho+pP8Q1hPY8sTknpVSbKSOBDPG0hOSeC7U2BtCszINgTPw7CMV5FmOeaN0oKm+T" crossorigin="anonymous"></script>
 </body>
 </html>

@@ -19,9 +19,9 @@ session_start();
     }
     body{
         background-image: url(../img/fundoponto.png);
-        background-size: cover;
-        background-color: #fafafa;
-        background-size: contain;
+        
+    
+        
     }
     .card-news {
         border: 1px solid #ddd; 
@@ -95,16 +95,16 @@ session_start();
 
 <div class="container mt-4">
     <?php
-    // Inclui o arquivo de conexão com o banco de dados
-    include('../php/conexao.php'); // Altere para o caminho correto do seu arquivo de conexão
+    
+    include('../php/conexao.php'); 
 
-    // Consulta as notícias no banco de dados
+ 
     $sql = "SELECT * FROM noticias ORDER BY data_publicacao DESC";
     $result = $conn->query($sql);
 
-    // Verifica se há resultados
+    
     if ($result->num_rows > 0) {
-        // Exibe cada notícia
+        
         while($row = $result->fetch_assoc()) {
             echo '<div class="row card-news">';
             echo '  <div class="col-md-4">';
